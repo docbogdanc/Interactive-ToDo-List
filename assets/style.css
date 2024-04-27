@@ -1,0 +1,11 @@
+#reset-this-root {
+    all: unset;
+  }
+
+  #tableHead {
+    border: solid;
+  }
+
+  .tableData {
+    font-size: 40px;
+  }
