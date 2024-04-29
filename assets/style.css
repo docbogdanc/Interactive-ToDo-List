@@ -14,12 +14,18 @@ body {
         font-size: 50px;
 }
 #addTask {
+    align-self: center;
     height: 5vh;
     margin-left: 1vw;
+    margin-right: 1vw;
     margin-bottom: 1vh;
+    width: 20vw;
+    font-size: x-large;
+    border-radius: 10px;
 }
 #mainList {
     padding-left: 1vw;
+    padding-right: 1vw;
 }
 
 #tableHead {
@@ -28,6 +34,7 @@ body {
 
 .tableData {
     font-size: 40px;
+    background-color: rgb(184, 188, 188) !important;
   }
 
 #toggleHiddenStatus {

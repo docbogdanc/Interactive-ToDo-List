@@ -8,16 +8,28 @@ let numberOfTasks = 0;
 
 // function to display the ToDo list with data from local storage 
 function displayList () {
-    for (let key in list) {
+    // order the list with urgent first and anytime last
+    const orderedData = Object.fromEntries(
+      Object.entries(list)
+          .sort(([,a], [,b]) => {
+              if (a.key1 === "Urgent") return -1;
+              if (b.key1 === "Urgent") return 1;
+              if (a.key1 === "Anytime" && b.key1 === "Normal") return 1;
+              if (a.key1 === "Normal" && b.key1 === "Anytime") return -1;
+              return 0;
+          })
+  );
+  numberOfTasks=0
+    for (let key in orderedData) {
         numberOfTasks ++
         const newTaskElem = document.createElement("tr"); // create the tr
         newTaskElem.id = "newtask"
         const newTaskElementData1 = document.createElement("td"); // create td1
-        newTaskElementData1.textContent = list[key].key1 || "test";
+        newTaskElementData1.textContent = orderedData[key].key1 || "test";
         const newTaskElementData2 = document.createElement("td"); // create td2
-        newTaskElementData2.textContent = list[key].key2 || "test2";
+        newTaskElementData2.textContent = orderedData[key].key2 || "test2";
         const newTaskElementData3 = document.createElement("td");  // create td3
-        newTaskElementData3.textContent = list[key].key3 || "pending";
+        newTaskElementData3.textContent = orderedData[key].key3 || "pending";
         //  add the data (td) to the table raw
         newTaskElem.appendChild(newTaskElementData1);
         newTaskElem.appendChild(newTaskElementData2);
