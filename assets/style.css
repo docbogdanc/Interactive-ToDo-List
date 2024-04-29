@@ -2,10 +2,34 @@
     all: unset;
   }
 
-  #tableHead {
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+#title {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        align-self: center;
+        font-size: 50px;
+}
+#addTask {
+    height: 5vh;
+    margin-left: 1vw;
+    margin-bottom: 1vh;
+}
+#mainList {
+    padding-left: 1vw;
+}
+
+#tableHead {
     border: solid;
   }
 
-  .tableData {
+.tableData {
     font-size: 40px;
+  }
+
+#toggleHiddenStatus {
+    display: true;
   }
