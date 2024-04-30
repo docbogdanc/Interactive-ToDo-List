@@ -3,9 +3,12 @@ const userInput = document.getElementById("toggleHiddenStatus");
 const tableElem = document.getElementById("table");
 const tableBody = document.getElementById("tableBody");
 const list = JSON.parse(localStorage.getItem("savedList")) || {};
+const listHistory = JSON.parse(localStorage.getItem("savedHistoryList")) || {};
 let numberOfTasks = 0;
 
-//================ function to display the ToDo list with data from local storage=================
+
+//-----------------------------------------------------------------------------------
+//================ function to DISPLAY the ToDo list with data from local storag e=================
 function displayList() {
   // order the list with "Urgent" first and "Anytime" last
   const orderedData = Object.fromEntries(
@@ -45,6 +48,8 @@ function displayList() {
 }
 displayList(); // call function to diaplay the list
 
+
+//---------------------------------------------------------------------------------------
 // ============= TOGGLE the display for table raw with the INPUT FORM =====================
 buttonAddTask.addEventListener("click", function () {
   console.log("button pressed");
@@ -55,6 +60,8 @@ buttonAddTask.addEventListener("click", function () {
   }
 });
 
+
+//---------------------------------------------------------------------
 // ============= FUNCTION for button to DELETE task =====================
 const deleteButtons = document.getElementsByClassName("deleteButton");
 // Iterate over each delete button element
@@ -97,6 +104,10 @@ Array.from(deleteButtons).forEach(function (deleteButton) {
   
 });
 
+
+
+
+//-------------------------------------------------------------
 // ====== event listener for the SUBMIT FORM ==================
 userInput.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -119,12 +130,10 @@ userInput.addEventListener("submit", function (event) {
       row.remove();
     }
   }
+  // const form = document.getElementById("formTask")
+  // form.reset();
   // clear the form fields after submission
-  event.target.elements.rank.value = ""; // Clear the rank input field
-  event.target.elements.task.value = ""; // Clear the task input field
 
-  // Display the initial placeholder in the form fields
-  event.target.elements.rank.placeholder = "Normal"; // Set the placeholder for rank input
-  event.target.elements.task.placeholder = "task"; // Set the placeholde
   displayList();
+  window.location.reload()
 });
