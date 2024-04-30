@@ -32,8 +32,12 @@ function displayList() {
     newTaskElementData3.textContent = orderedData[key].key3 || "pending";
     const newTaskElementData4 = document.createElement("td"); // create td4
     const newTaskElementData4DeleteButton = document.createElement("button");
-    newTaskElementData4DeleteButton.className = "deleteButton";
+    const newTaskElementData4FinishedButton = document.createElement("button");
+    newTaskElementData4FinishedButton.className = "finishedButton";
+    newTaskElementData4FinishedButton.textContent = "Done";
+    newTaskElementData4DeleteButton.className = "Button";
     newTaskElementData4DeleteButton.textContent = "X";
+    newTaskElementData4.appendChild(newTaskElementData4FinishedButton);
     newTaskElementData4.appendChild(newTaskElementData4DeleteButton);
 
     //  add the data (td) to the table raw
@@ -52,7 +56,6 @@ displayList(); // call function to diaplay the list
 //---------------------------------------------------------------------------------------
 // ============= TOGGLE the display for table raw with the INPUT FORM =====================
 buttonAddTask.addEventListener("click", function () {
-  console.log("button pressed");
   if (userInput.style.display === "none") {
     userInput.style.display = ""; // Show the element
   } else {
@@ -68,28 +71,19 @@ const deleteButtons = document.getElementsByClassName("deleteButton");
 Array.from(deleteButtons).forEach(function (deleteButton) {
   // Add an event listener to each delete button
   deleteButton.addEventListener("click", function (event) {
-    console.log("Task deleted");
     // Access the parent node of the delete button
     const parentElement = event.target.parentNode.parentNode;
     // Access the task to delete from the second child element
     const taskToDelete = parentElement.children[1].textContent;
-    console.log(taskToDelete);
-    console.log(list);
     // find in the object the key that need to be deleted and delete its object
     for (let key in list) {
-      console.log(list[key].key2);
       if (list[key].key2 === taskToDelete) {
-        console.log(list[key]);
         delete list[key];
-        console.log(list);
         break; // Stop the loop after deleting the element
-      } else {
-        console.log("nothing to delete");
-      }
+      } 
     }
     localStorage.setItem("savedList", JSON.stringify(list)); // save list in local storage
     let rows = table.getElementsByTagName("tr"); // delete old list
-    console.log(rows);
     // delete the previous list to prepare to display the updated list
     for (let i = rows.length - 1; i >= 0; i--) {
       let row = rows[i];
@@ -99,11 +93,45 @@ Array.from(deleteButtons).forEach(function (deleteButton) {
     }
     displayList(); // display new list
     window.location.reload()
-    // window.location.reload().
+    
   });
   
 });
 
+
+//---------------------------------------------------------------------
+// ============= FUNCTION for button to DELETE task =====================
+const finishedButtons = document.getElementsByClassName("finishedButton");
+// Iterate over each delete button element
+Array.from(finishedButtons).forEach(function (finishedButton) {
+  // Add an event listener to each delete button
+  finishedButton.addEventListener("click", function (event) {
+    // Access the parent node of the delete button
+    const parentElement = event.target.parentNode.parentNode;
+    // Access the task to Mark as finished from the second child element
+    const taskToFinish = parentElement.children[1].textContent;
+    // find in the object the key that need to be deleted and delete its object
+    for (let key in list) {
+      if (list[key].key2 === taskToFinish) {
+        list[key].key3 = "Finished";
+        break; // Stop the loop after deleting the element
+      } 
+    }
+    localStorage.setItem("savedList", JSON.stringify(list)); // save list in local storage
+    let rows = table.getElementsByTagName("tr"); // delete old list
+    // delete the previous list to prepare to display the updated list
+    for (let i = rows.length - 1; i >= 0; i--) {
+      let row = rows[i];
+      if (row.className === "newtask") {
+        row.remove();
+      }
+    }
+    displayList(); // display new list
+    window.location.reload()
+    
+  });
+  
+});
 
 
 
@@ -114,7 +142,7 @@ userInput.addEventListener("submit", function (event) {
   const rank = event.target.elements.rank.value;  // take the values submitted
   const task = event.target.elements.task.value;
   // create a new object with the task
-  let createdTask = { key1: rank, key2: task, key3: "pending", key4: "X" };
+  let createdTask = { key1: rank, key2: task, key3: "pending", key4: "X" , key5:"finished"};
   numberOfTasks = localStorage.getItem("noOfTasks") || 1;
   numberOfTasks = parseInt(numberOfTasks)+1;
   console.log(numberOfTasks);
@@ -130,10 +158,6 @@ userInput.addEventListener("submit", function (event) {
       row.remove();
     }
   }
-  // const form = document.getElementById("formTask")
-  // form.reset();
-  // clear the form fields after submission
-
   displayList();
   window.location.reload()
 });
